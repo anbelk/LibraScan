@@ -1,2 +1,2 @@
 # LibraScan
-version
+version 2 - backend part
