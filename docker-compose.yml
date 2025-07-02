@@ -1,14 +1,40 @@
 version: '3.8'
 
 services:
-  backend:
-    build: ./backend/predictor
-    ports:
-      - "8000:8000"
-
-  frontend:
-    build: ./frontend/image-uploader
-    ports:
-      - "3001:3001"
+#  backend:
+#    build: ./backend/predictor
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - db
+#    environment:
+#      - DB_HOST=db
+#      - DB_PORT=5432
+#      - DB_NAME=your_db
+#      - DB_USER=your_user
+#      - DB_PASSWORD=your_password
+#
+#  frontend:
+#    build: ./frontend/image-uploader
+#    ports:
+#      - "3001:3001"
 #    depends_on:
 #      - backend
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: image_collector
+      POSTGRES_DB: image_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:
+
