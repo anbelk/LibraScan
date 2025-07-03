@@ -77,8 +77,25 @@ def train_and_evaluate(train_files, train_labels, test_files, test_labels,
         avg_val_loss = val_loss / len(test_loader)
         val_losses.append(avg_val_loss)
 
+        # Вывод потерь
         print(f'Epoch {epoch+1} - Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}')
 
+        # Вычисление и вывод метрик после каждой эпохи
+        accuracy = accuracy_score(all_labels, all_preds)
+        precision, recall, f1, _ = precision_recall_fscore_support(all_labels, all_preds, average=None)
+        micro_p, micro_r, micro_f1, _ = precision_recall_fscore_support(all_labels, all_preds, average='micro')
+        macro_p, macro_r, macro_f1, _ = precision_recall_fscore_support(all_labels, all_preds, average='macro')
+        cm = confusion_matrix(all_labels, all_preds)
+
+        print(f'Epoch {epoch+1} - Accuracy: {accuracy:.4f}')
+        for i, (p, r, f) in enumerate(zip(precision, recall, f1)):
+            print(f'Class {i}: Precision={p:.4f}, Recall={r:.4f}, F1={f:.4f}')
+        print(f'Micro avg: Precision={micro_p:.4f}, Recall={micro_r:.4f}, F1={micro_f1:.4f}')
+        print(f'Macro avg: Precision={macro_p:.4f}, Recall={macro_r:.4f}, F1={macro_f1:.4f}')
+        print('Confusion Matrix:')
+        print(cm)
+
+        # Раннее прекращение
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             patience = 0
@@ -90,20 +107,7 @@ def train_and_evaluate(train_files, train_labels, test_files, test_labels,
                 print('Early stopping triggered')
                 break
 
-    accuracy = accuracy_score(all_labels, all_preds)
-    precision, recall, f1, _ = precision_recall_fscore_support(all_labels, all_preds, average=None)
-    micro_p, micro_r, micro_f1, _ = precision_recall_fscore_support(all_labels, all_preds, average='micro')
-    macro_p, macro_r, macro_f1, _ = precision_recall_fscore_support(all_labels, all_preds, average='macro')
-    cm = confusion_matrix(all_labels, all_preds)
-
-    print(f'Accuracy: {accuracy:.4f}')
-    for i, (p, r, f) in enumerate(zip(precision, recall, f1)):
-        print(f'Class {i}: Precision={p:.4f}, Recall={r:.4f}, F1={f:.4f}')
-    print(f'Micro avg: Precision={micro_p:.4f}, Recall={micro_r:.4f}, F1={micro_f1:.4f}')
-    print(f'Macro avg: Precision={macro_p:.4f}, Recall={macro_r:.4f}, F1={macro_f1:.4f}')
-    print('Confusion Matrix:')
-    print(cm)
-
+    # Сохранение метрик
     metrics = {
         'accuracy': accuracy,
         'precision': precision.tolist(),
@@ -117,6 +121,7 @@ def train_and_evaluate(train_files, train_labels, test_files, test_labels,
     with open(os.path.join(RESULTS_SAVE_PATH, f'metrics_{use_text}_{use_image}.json'), 'w') as f:
         json.dump(metrics, f, indent=4)
 
+    # График потерь
     plt.figure(figsize=(10,5))
     plt.plot(train_losses, label='Train Loss')
     plt.plot(val_losses, label='Validation Loss')
@@ -135,4 +140,4 @@ if __name__ == '__main__':
     test_files, test_labels = read_labels(TEST_LABELS_FILE, TEST_IMAGES_DIR)
 
     # Пример запуска — обучить на аугментированных данных с текстом и изображениями
-    train_and_evaluate(train_files, train_labels, test_files, test_labels, use_text=True, use_image=False)
+    train_and_evaluate(train_files, train_labels, test_files, test_labels, use_text=True, use_image=True)

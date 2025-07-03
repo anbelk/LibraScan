@@ -21,16 +21,16 @@ FNN_WEIGHTS_PATH = 'weights/fnn.pth'
 
 # Гиперпараметры
 BATCH_SIZE = 16
-EPOCHS = 10
-EARLY_STOPPING_PATIENCE = 10
+EPOCHS = 20
+EARLY_STOPPING_PATIENCE = 2
 LEARNING_RATE = 3e-3
 
 # Устройство
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # Пути сохранения
-MODEL_SAVE_PATH = 'model/saved_models/'
-RESULTS_SAVE_PATH = 'model/results/'
+MODEL_SAVE_PATH = 'saved_models/'
+RESULTS_SAVE_PATH = 'results/'
 
 # Размер скрытого слоя FNN (перенёс сюда по твоей просьбе)
 FNN_HIDDEN_DIM = 1024
