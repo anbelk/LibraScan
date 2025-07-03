@@ -33,7 +33,7 @@ class DB:
         hash_id: str,
         date: datetime,
         img_url: str,
-        model_answer: str
+        model_answer: int
     ) -> None:
         async with self._pool.acquire() as conn:
             await conn.execute("""
@@ -44,7 +44,7 @@ class DB:
     async def save_user_answer(
             self,
             prediction_hash: str,
-            user_answer: str,
+            user_answer: int,
             answered_at: datetime,
     ) -> None:
         async with self._pool.acquire() as conn:

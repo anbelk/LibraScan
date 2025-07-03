@@ -1,8 +1,20 @@
 version: '3.8'
 
 services:
+#  gradio-frontend:
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
+#    ports:
+#      - "7860:7860"
+#    environment:
+#      - PREDICT_URL=http://backend:8000/predict
+#      - SAVE_ANSWER_URL=http://backend:8000/save_answer
+#    depends_on:
+#      - backend
+#
 #  backend:
-#    build: ./backend/predictor
+#    build: ./backend
 #    ports:
 #      - "8000:8000"
 #    depends_on:
@@ -10,16 +22,9 @@ services:
 #    environment:
 #      - DB_HOST=db
 #      - DB_PORT=5432
-#      - DB_NAME=your_db
-#      - DB_USER=your_user
-#      - DB_PASSWORD=your_password
-#
-#  frontend:
-#    build: ./frontend/image-uploader
-#    ports:
-#      - "3001:3001"
-#    depends_on:
-#      - backend
+#      - DB_NAME=image_db
+#      - DB_USER=image_collector
+#      - DB_PASSWORD=password
 
   db:
     image: postgres:15
@@ -37,4 +42,3 @@ services:
 
 volumes:
   postgres_data:
-

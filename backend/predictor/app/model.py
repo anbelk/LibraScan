@@ -1,15 +1,8 @@
 import torch
 import torchvision.transforms as transforms
 
-CLASSES = ["cat", "dog", "car", "tree"]
 
+class Classifier:
+    def predict(self, image_vec, text_vec):
+        return int((sum(image_vec) + sum(text_vec)) % 4)
 
-def predict_class(image):
-    transform = transforms.Compose([
-        transforms.Resize((64, 64)),
-        transforms.ToTensor(),
-    ])
-    tensor = transform(image)
-    avg = tensor.mean().item()
-    index = int(avg * len(CLASSES)) % len(CLASSES)
-    return CLASSES[index]
