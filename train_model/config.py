@@ -1,14 +1,14 @@
 import torch
 
 # Пути к данным
-TRAIN_IMAGES_DIR = 'content/train'
-TRAIN_LABELS_FILE = 'content/train_labels.txt'
+TRAIN_IMAGES_DIR = 'src/train'
+TRAIN_LABELS_FILE = 'src/train_labels.txt'
 
-AUGMENTED_TRAIN_IMAGES_DIR = 'content/augmented_train'
-AUGMENTED_TRAIN_LABELS_FILE = 'content/augmented_train_labels.txt'
+AUGMENTED_TRAIN_IMAGES_DIR = 'src/augmented_train'
+AUGMENTED_TRAIN_LABELS_FILE = 'src/augmented_train_labels.txt'
 
-TEST_IMAGES_DIR = 'content/test'
-TEST_LABELS_FILE = 'content/test_labels.txt'
+TEST_IMAGES_DIR = 'src/test'
+TEST_LABELS_FILE = 'src/test_labels.txt'
 
 # Пути к кэшу OCR текстов
 OCR_CACHE_PATH = 'cache/ocr_cache.json'
@@ -20,9 +20,9 @@ TEXT_ENCODER_WEIGHTS_PATH = 'weights/text_encoder.pth'
 FNN_WEIGHTS_PATH = 'weights/fnn.pth'
 
 # Гиперпараметры
-BATCH_SIZE = 16
-EPOCHS = 20
-EARLY_STOPPING_PATIENCE = 2
+BATCH_SIZE = 8
+EPOCHS = 5
+EARLY_STOPPING_PATIENCE = 3
 LEARNING_RATE = 3e-3
 
 # Устройство
