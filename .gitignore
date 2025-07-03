@@ -1,4 +1,10 @@
 .idea/
+
 *.pth
 train_model/weights/*.pth
 weights/*.pth
+
+train_model/weights/*.pth
+train_model/src/*
+train_model/*.zip
+

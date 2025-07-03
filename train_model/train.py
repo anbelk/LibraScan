@@ -140,4 +140,4 @@ if __name__ == '__main__':
     test_files, test_labels = read_labels(TEST_LABELS_FILE, TEST_IMAGES_DIR)
 
     # Пример запуска — обучить на аугментированных данных с текстом и изображениями
-    train_and_evaluate(train_files, train_labels, test_files, test_labels, use_text=True, use_image=True)
+    train_and_evaluate(augmented_train_files, augmented_train_labels, test_files, test_labels, use_text=True, use_image=True)

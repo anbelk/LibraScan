@@ -23,13 +23,17 @@ class FNN(nn.Module):
 
 
 class Predictor:
-    def __init__(self, use_text=True, use_image=True, device=DEVICE):
+    def __init__(self, path=None, use_text=True, use_image=True, device=DEVICE):
         self.device = device
         self.use_text = use_text
         self.use_image = use_image
 
+
         self.text_encoder = TextEncoder(TEXT_ENCODER_WEIGHTS_PATH) if use_text else None
         # self.image_encoder = ImageEncoder(IMAGE_ENCODER_WEIGHTS_PATH) if use_image else None
+
+        self.text_encoder = TextEncoder() if use_text else None
+
         self.image_encoder = ImageEncoder() if use_image else None
         
         input_dim = 0
@@ -39,12 +43,14 @@ class Predictor:
             input_dim += 2048  # ResNet output size
 
         self.model = FNN(input_dim).to(device)
+
         if os.path.exists(FNN_WEIGHTS_PATH):
             print(f"Loading FNN weights from {BEST_FNN_WEIGHTS_PATH}")
             self.model.load_state_dict(torch.load(BEST_FNN_WEIGHTS_PATH, map_location=device))
             self.model.eval()
         else:
             print(f"FNN weights not found at {BEST_FNN_WEIGHTS_PATH}, using random initialization")
+
 
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
@@ -79,6 +85,7 @@ class Predictor:
         self.optimizer.step()
         return loss.item()
 
+
     def predict_from_embedding(self, text_vector, image_vector):
         self.model.eval()
         with torch.no_grad():
@@ -87,3 +94,4 @@ class Predictor:
             probs = torch.softmax(logits, dim=1)
         preds = torch.argmax(probs, dim=1)
         return preds
+

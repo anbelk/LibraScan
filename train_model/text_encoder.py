@@ -8,11 +8,10 @@ from train_model.config import TEXT_ENCODER_WEIGHTS_PATH, BATCH_SIZE, DEVICE
 
 
 class TextEncoder:
-    def __init__(self, weights_path):
+    def __init__(self):
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
         self.model = BertModel.from_pretrained('bert-base-multilingual-cased')
 
-        #self.model.load_state_dict(torch.load(weights_path, map_location=DEVICE))
 
         self.model.to(DEVICE)
         self.model.eval()
