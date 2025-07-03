@@ -25,8 +25,8 @@ class Predictor:
         self.device = device
         self.use_text = use_text
         self.use_image = use_image
-        self.text_encoder = TextEncoder(TEXT_ENCODER_WEIGHTS_PATH) if use_text else None
-        self.image_encoder = ImageEncoder(IMAGE_ENCODER_WEIGHTS_PATH) if use_image else None
+        self.text_encoder = TextEncoder() if use_text else None
+        self.image_encoder = ImageEncoder() if use_image else None
         
         input_dim = 0
         if use_text:
