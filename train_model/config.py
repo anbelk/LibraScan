@@ -21,7 +21,7 @@ FNN_WEIGHTS_PATH = 'weights/fnn.pth'
 
 # Гиперпараметры
 BATCH_SIZE = 8
-EPOCHS = 5
+EPOCHS = 2
 EARLY_STOPPING_PATIENCE = 3
 LEARNING_RATE = 3e-3
 
