@@ -21,7 +21,7 @@ class FNN(nn.Module):
         return self.classifier(x)
 
 class Predictor:
-    def __init__(self, use_text=True, use_image=True, device=DEVICE):
+    def __init__(self, path=None, use_text=True, use_image=True, device=DEVICE):
         self.device = device
         self.use_text = use_text
         self.use_image = use_image
@@ -35,6 +35,13 @@ class Predictor:
             input_dim += 2048  # ResNet output size
         
         self.model = FNN(input_dim).to(device)
+        if os.path.exists(path):
+            print(f"Loading FNN weights from {path}")
+            self.model.load_state_dict(torch.load(path, map_location=device))
+            self.model.eval()
+        else:
+            print(f"FNN weights not found at {path}, using random initialization")
+
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
 
@@ -67,3 +74,4 @@ class Predictor:
         loss.backward()
         self.optimizer.step()
         return loss.item()
+    
