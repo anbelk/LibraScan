@@ -1,3 +1,4 @@
 .idea/
 *.pth
 train_model/weights/*.pth
+weights/*.pth

@@ -137,5 +137,9 @@ with gr.Blocks() as demo:
         outputs=[image, predicted_output, manual_label, submit_feedback_btn, prediction_hash, new_session_btn, load_another_btn]
     )
 
-demo.launch()
+demo.launch(
+    server_name="0.0.0.0",  # Разрешаем доступ извне контейнера
+    server_port=7860,       # Явно указываем порт
+    share=False             # Отключаем публичный URL (если не нужен)
+)
 

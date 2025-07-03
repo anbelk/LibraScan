@@ -10,8 +10,6 @@ services:
 #    environment:
 #      - PREDICT_URL=http://backend:8000/predict
 #      - SAVE_ANSWER_URL=http://backend:8000/save_answer
-#    depends_on:
-#      - backend
 #
 #  backend:
 #    build: ./backend

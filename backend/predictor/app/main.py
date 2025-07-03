@@ -1,6 +1,7 @@
 import os
 import io
 
+from loguru import logger
 import hashlib
 import aiohttp
 import asyncio
@@ -83,6 +84,9 @@ async def predict(file: UploadFile = File(...), background_tasks: BackgroundTask
     txt_task = fetch_text_vector(image_bytes, file.filename, file.content_type)
 
     image_vec, text_vec = await asyncio.gather(img_task, txt_task)
+
+    logger.info(f"image_vec={len(image_vec)}")
+    logger.info(f"text_vec={len(text_vec)}")
     result = app.state.classifier.predict(image_vec, text_vec)
 
     file_root, file_ext = os.path.splitext(file.filename)

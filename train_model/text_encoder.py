@@ -3,14 +3,16 @@ import pytesseract
 from transformers import BertTokenizer, BertModel
 import torch
 from PIL import Image
-from config import TEXT_ENCODER_WEIGHTS_PATH, BATCH_SIZE, DEVICE
+import io
+from train_model.config import TEXT_ENCODER_WEIGHTS_PATH, BATCH_SIZE, DEVICE
+
 
 class TextEncoder:
     def __init__(self, weights_path):
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
         self.model = BertModel.from_pretrained('bert-base-multilingual-cased')
 
-        self.model.load_state_dict(torch.load(weights_path, map_location=DEVICE))
+        #self.model.load_state_dict(torch.load(weights_path, map_location=DEVICE))
 
         self.model.to(DEVICE)
         self.model.eval()
@@ -37,3 +39,8 @@ class TextEncoder:
     def get_ocr_text_emb(self, image_paths):
         texts = self.ocr_images(image_paths)
         return self.get_text_emb(texts)
+
+    def get_ocr_text_emb_from_bytes(self, image_bytes):
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")  # ← добавлено
+        text = pytesseract.image_to_string(image)
+        return self.get_text_emb([text])
